@@ -1,23 +1,21 @@
+<!-- HTML File (index.html) -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Open Document</title>
+    <title>View Menu</title>
+    <script src="base64.js"></script> <!-- Link to the JS file containing the Base64 string -->
 </head>
 <body>
-    <script>
-        // Replace 'YOUR_FILE_ID' with the actual file ID of your Google Drive document
-        const fileID = '1qJIgEneAREQTflWImjeIkuqjfftjDVNq';
-        const fileURL = `https://drive.google.com/file/d/${fileID}/view`;
+    <h1>View Document</h1>
+    <embed id="pdfEmbed" type="application/pdf" width="100%" height="600px" />
 
-        // Trigger the file opening in a new tab after a small delay
-        window.onload = function() {
-            setTimeout(function() {
-                window.open(fileURL, '_blank');
-            }, 100); // Small delay to ensure it is not blocked by the browser
-        };
+    <p>If the document is not displaying, please <a id="downloadLink" download="document.pdf">click here to download the document</a>.</p>
+
+    <script>
+        document.getElementById('pdfEmbed').src = 'data:application/pdf;base64,' + pdfBase64;
+        document.getElementById('downloadLink').href = 'data:application/pdf;base64,' + pdfBase64;
     </script>
-    <p>The document is opening in a new tab...</p>
 </body>
 </html>
