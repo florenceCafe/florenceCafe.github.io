@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download Document</title>
+</head>
+<body>
+    <script>
+        // Replace 'YOUR_FILE_ID' with the actual file ID of your Google Drive document
+        const fileID = '1qJIgEneAREQTflWImjeIkuqjfftjDVNq';
+        const downloadURL = `https://drive.google.com/uc?export=download&id=${fileID}`;
+
+        // Automatically create and click a hidden download link
+        const hiddenElement = document.createElement('a');
+        hiddenElement.href = downloadURL;
+        hiddenElement.download = '';
+        hiddenElement.style.display = 'none';
+        document.body.appendChild(hiddenElement);
+        hiddenElement.click();
+        document.body.removeChild(hiddenElement);
+    </script>
+    <p>The document is downloading...</p>
+</body>
+</html>
