@@ -3,31 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View PDF</title>
+    <title>View Menu</title>
     <!-- Include your external JS file with the Base64 string -->
     <script src="base64.js"></script>
 </head>
 <body>
+    <h1>View PDF</h1>
+    <div id="pdfContainer"></div>
+
     <script>
         // Construct the object and embed elements
         var objbuilder = '';
-        objbuilder += '<object width="100%" height="100%" data="data:application/pdf;base64,' + myBase64string + '" type="application/pdf" class="internal">';
+        objbuilder += '<object width="100%" height="600px" data="data:application/pdf;base64,' + myBase64string + '" type="application/pdf" class="internal">';
         objbuilder += '<embed src="data:application/pdf;base64,' + myBase64string + '" type="application/pdf" />';
         objbuilder += '</object>';
 
-        // Open a new window/tab and write the constructed HTML
-        var win = window.open("", "_blank");
-
-        if (win) {
-            var title = "My PDF Viewer";
-            win.document.write('<html><head><title>' + title + '</title></head>');
-            win.document.write('<body style="margin: 0; padding: 0; overflow: hidden;">');
-            win.document.write(objbuilder);
-            win.document.write('</body></html>');
-            win.document.close();  // Important to close the document to ensure rendering
-        } else {
-            alert('Please allow pop-ups for this website to view the PDF.');
-        }
+        // Insert the constructed HTML directly into the current page
+        document.getElementById('pdfContainer').innerHTML = objbuilder;
     </script>
 </body>
 </html>
