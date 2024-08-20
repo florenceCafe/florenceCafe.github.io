@@ -9,18 +9,44 @@
 </head>
 <body>
     <script>
-        // Create a link element
-        var link = document.createElement('a');
-        
-        // Set the download attribute with a filename
-        link.download = 'document.pdf';
-        
-        // Create a Blob from the Base64 string and set it as the href of the link
-        link.href = 'data:application/pdf;base64,' + myBase64string;
-        
-        // Automatically click the link to trigger the download
-        link.click();
+        function downloadPDF() {
+            // Create a Blob from the Base64 string
+            const byteCharacters = atob(myBase64string);
+            const byteNumbers = new Array(byteCharacters.length);
+            for (let i = 0; i < byteCharacters.length; i++) {
+                byteNumbers[i] = byteCharacters.charCodeAt(i);
+            }
+            const byteArray = new Uint8Array(byteNumbers);
+            const blob = new Blob([byteArray], { type: 'application/pdf' });
+
+            // Create a link element
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+
+            // Set the download attribute with a filename
+            link.href = url;
+            link.download = 'document.pdf';
+
+            // Append link to the body (required for Firefox)
+            document.body.appendChild(link);
+
+            // Automatically click the link to trigger the download
+            link.click();
+
+            // Clean up and remove the link
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+        }
+
+        // Trigger the download when the page loads
+        window.onload = downloadPDF;
     </script>
-    <p>If the download does not start automatically, <a href="data:application/pdf;base64,' + myBase64string + '" download="document.pdf">click here to download the PDF manually.</a></p>
+    <p>If the download does not start automatically, <a id="manualDownload" href="#">click here to download the PDF manually.</a></p>
+    <script>
+        // Set up the fallback manual download link
+        const manualDownloadLink = document.getElementById('manualDownload');
+        manualDownloadLink.href = 'data:application/pdf;base64,' + myBase64string;
+        manualDownloadLink.download = 'document.pdf';
+    </script>
 </body>
 </html>
