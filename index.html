@@ -3,48 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View Document</title>
-    <!-- Include the PDF.js library -->
-    <script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>
-    <style>
-        #pdfViewer {
-            width: 100%;
-            height: 600px;
-            border: 1px solid #000;
-            overflow: auto;
-        }
-    </style>
+    <title>View PDF</title>
+    <!-- Include your external JS file with the Base64 string -->
+    <script src="base64.js"></script>
 </head>
 <body>
-    <h1>View Document</h1>
-    <div id="pdfViewer"></div>
-
-    <!-- Link to your external JavaScript file that contains the Base64 string -->
-    <script src="base64.js"></script>
-
     <script>
-        // Assuming your Base64 string is in a variable named pdfBase64 in base64.js
-        const pdfAsArray = Uint8Array.from(atob(pdfBase64), c => c.charCodeAt(0));
+        // Construct the object and embed elements
+        var objbuilder = '';
+        objbuilder += '<object width="100%" height="100%" data="data:application/pdf;base64,' + myBase64string + '" type="application/pdf" class="internal">';
+        objbuilder += '<embed src="data:application/pdf;base64,' + myBase64string + '" type="application/pdf" />';
+        objbuilder += '</object>';
 
-        pdfjsLib.getDocument({ data: pdfAsArray }).promise.then(pdf => {
-            pdf.getPage(1).then(page => {
-                const scale = 1.5;
-                const viewport = page.getViewport({ scale: scale });
+        // Open a new window/tab and write the constructed HTML
+        var win = window.open("", "_blank");
 
-                const canvas = document.createElement('canvas');
-                const context = canvas.getContext('2d');
-                canvas.height = viewport.height;
-                canvas.width = viewport.width;
-
-                document.getElementById('pdfViewer').appendChild(canvas);
-
-                const renderContext = {
-                    canvasContext: context,
-                    viewport: viewport
-                };
-                page.render(renderContext);
-            });
-        });
+        if (win) {
+            var title = "My PDF Viewer";
+            win.document.write('<html><head><title>' + title + '</title></head>');
+            win.document.write('<body style="margin: 0; padding: 0; overflow: hidden;">');
+            win.document.write(objbuilder);
+            win.document.write('</body></html>');
+            win.document.close();  // Important to close the document to ensure rendering
+        } else {
+            alert('Please allow pop-ups for this website to view the PDF.');
+        }
     </script>
 </body>
 </html>
