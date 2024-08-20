@@ -3,23 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View Menu</title>
+    <title>View PDF</title>
     <!-- Include your external JS file with the Base64 string -->
     <script src="base64.js"></script>
 </head>
 <body>
     <h1>View PDF</h1>
     <div id="pdfContainer"></div>
+    <p>If the PDF does not display, <a id="downloadLink" href="#">click here to download the PDF.</a></p>
 
     <script>
-        // Construct the object and embed elements
+        // Attempt to render the PDF inline
         var objbuilder = '';
         objbuilder += '<object width="100%" height="600px" data="data:application/pdf;base64,' + myBase64string + '" type="application/pdf" class="internal">';
         objbuilder += '<embed src="data:application/pdf;base64,' + myBase64string + '" type="application/pdf" />';
         objbuilder += '</object>';
 
-        // Insert the constructed HTML directly into the current page
+        // Insert the constructed HTML into the current page
         document.getElementById('pdfContainer').innerHTML = objbuilder;
+
+        // Set up the download link
+        document.getElementById('downloadLink').href = 'data:application/pdf;base64,' + myBase64string;
+        document.getElementById('downloadLink').download = 'document.pdf';
     </script>
 </body>
 </html>
