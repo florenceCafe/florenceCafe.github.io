@@ -11,8 +11,12 @@
         const fileID = '1qJIgEneAREQTflWImjeIkuqjfftjDVNq';
         const fileURL = `https://drive.google.com/file/d/${fileID}/view`;
 
-        // Open the document in a new tab
-        window.open(fileURL, '_blank');
+        // Trigger the file opening in a new tab after a small delay
+        window.onload = function() {
+            setTimeout(function() {
+                window.open(fileURL, '_blank');
+            }, 100); // Small delay to ensure it is not blocked by the browser
+        };
     </script>
     <p>The document is opening in a new tab...</p>
 </body>
